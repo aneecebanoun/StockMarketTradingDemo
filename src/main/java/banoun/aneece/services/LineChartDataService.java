@@ -35,8 +35,8 @@ public class LineChartDataService {
 	
 	public Color stockMarketColor(String com){
 		StockSymbol stockSymbol = StockSymbol.SYMBOLS_MAP.get(com);
-		List<StockEntry> stockEntries = stockSymbol.getDayHistory().stream().sorted((e1, e2)-> e2.getLocalDateTime().compareTo(e1.getLocalDateTime())).collect(Collectors.toList());
-		Double minuteDiff = stockEntries.isEmpty()||stockEntries.size()<1?0.00:stockEntries.get(0).getAverage()-stockEntries.get(1).getAverage();
+		List<StockEntry> stockEntries = stockSymbol.getSortedDayHistory();
+		Double minuteDiff = stockEntries.isEmpty()||stockEntries.size()<1?0.00:stockEntries.get(0).getAverage()-stockSymbol.dayAverage();
 		Color color = null;
 		if(minuteDiff!=null){
 			String formattedDiff = String.format("%.2f", minuteDiff);

@@ -25,7 +25,7 @@ public class RestControllerForAjax {
 			if("".equals(updateTime.toString())){
 				updateTime.append(stockSymbol.getSortedDayHistory().get(0).getLocalDateTime().format(formatter));
 			}
-			Double diff = Double.parseDouble(stockSymbol.getCurrentPrice())-Double.parseDouble(stockSymbol.getPreviousPrice());
+			Double diff = Double.parseDouble(stockSymbol.getCurrentPrice())-stockSymbol.dayAverage()/*Double.parseDouble(stockSymbol.getPreviousPrice())*/;
 			String formattedDiff = String.format("%.2f", diff);
 			String diffDisplay = "0.00".equals(formattedDiff)?SAME:diff>0?UP+formattedDiff:DOWN+formattedDiff;
 			result.put(stockSymbol.getName().replaceAll(" ", ""), OPEN_BRAKET+stockSymbol.getName()+" "+diffDisplay+CLOSE_BRAKET);

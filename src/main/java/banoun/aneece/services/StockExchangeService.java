@@ -38,7 +38,6 @@ public class StockExchangeService {
 				stockSymbol.setDayHistoryLastUpdatTime(currentTime);
 				String stockDayHistory = getJson(STOCK_DAY_HISTORY_URL.replace(STOCK_SYMBOL, symbol), 3000);
 				List<StockEntry> dayHistory = new ArrayList<>();
-				stockSymbol.setDayHistory(dayHistory);
 				List<Map<String, String>> list = mapper.readValue(stockDayHistory, new TypeReference<List<Map<String, String>>>() {});
 				list.stream().forEach(e -> {
 					if(!isNull(e.get("date"), e.get("minute"), e.get("average"))&& Double.parseDouble(e.get("average"))!=0.0){
@@ -51,6 +50,7 @@ public class StockExchangeService {
 						dayHistory.add(stockEntry);
 					}
 				});
+				stockSymbol.setDayHistory(dayHistory);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

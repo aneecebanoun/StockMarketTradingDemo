@@ -40,6 +40,7 @@ public class StockSymbol {
 	private String currentPrice = "";
 	private String previousPrice = "";
 	private String dayHistoryLastUpdatTime = "";
+	private Double dayAverage;
 	private List<StockEntry> dayHistory = new ArrayList<>();
 	
 	public String getName() {
@@ -69,6 +70,11 @@ public class StockSymbol {
 	public List<StockEntry> getDayHistory() {
 		return dayHistory;
 	}
+	
+	public Double dayAverage(){
+		return dayAverage;
+	}
+	
 	public List<StockEntry> getSortedDayHistory() {
 		return dayHistory.stream().sorted((e1, e2)->e2.getLocalDateTime().isAfter(e1.getLocalDateTime())?1:-1).collect(Collectors.toList());
 	}
@@ -77,6 +83,9 @@ public class StockSymbol {
 	}
 
 	public void setDayHistory(List<StockEntry> dayHistory) {
+		dayAverage = dayHistory.stream().map(e->
+		e.getAverage()).reduce(0.0, (e1,e2) -> e1+e2)/dayHistory.size();
+
 		this.dayHistory = dayHistory;
 	}
 	
